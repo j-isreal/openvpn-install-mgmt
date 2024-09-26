@@ -1,0 +1,8 @@
+ErrorDocument 404 /
+<Files file.zip>
+AuthType Basic
+AuthName 'Authentication Required'
+AuthUserFile /var/www/path/clients/.htpasswd
+Require user client111
+</Files>
+
