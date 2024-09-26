@@ -1,4 +1,11 @@
+# This file must be placed in the root folder of the client download path
+# The ErrorDocument will redirect the user to the root of the website,
+# which contains a redirect to another site or a 404 error document.
 ErrorDocument 404 /
+
+# This is the beginning of the .htaccess file that is managed by the
+# openvpn-install-mgmt.sh or openvpn-create-next-client.sh scripts --
+# REMOVE the example <Files> declaration before production.
 <Files file.zip>
 AuthType Basic
 AuthName 'Authentication Required'
