@@ -37,9 +37,9 @@ In order for the scripts to run properly, you must set the variables at the top 
 # * NO trailing slashes '/' on path variables
 #
 easy_rsa_url='https://github.com/OpenVPN/easy-rsa/releases/download/v3.2.1/EasyRSA-3.2.1.tgz'
-client_zip_path='/var/www/cc.vpn.icllc.cc/html/clients'
-client_htpasswd_path='/var/www/cc.vpn.icllc.cc/clients'
-admin_email='webadmin@icllc.cc'
+client_zip_path='/var/www/clientsite/html/clients'
+client_htpasswd_path='/var/www/clientsite/clients'
+admin_email='webadmin@yoursite.com'
 #
 first_serial=101
 ###############################################################################################
