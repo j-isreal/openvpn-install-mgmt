@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# https://github.com/j-isreal/bash-openvpn-install-grav
+# https://github.com/j-isreal/openvpn-install-mgmt
 #
 # Copyright (c) 2024 Jacob Eiler, Isreal Consulting, LLC. Read the License file.
 #
@@ -12,9 +12,10 @@
 # VARIABLES ###################################################################################
 # * NO trailing slashes '/' on path variables
 #
-client_zip_path='/var/www/cc.vpn.icllc.cc/html/clients'
-client_htpasswd_path='/var/www/cc.vpn.icllc.cc/clients'
-admin_email='webadmin@icllc.cc'
+client_zip_path='/var/www/clientsite/html/clients'
+client_htpasswd_path='/var/www/clientsite/clients'
+client_site_url='https://www.clientsite.com/clients'
+admin_email='webadmin@yourdomain.com'
 #
 # change to openvpn/server and load latest number to var lastclient
 # and then add 1 to the value in the file, and finally
@@ -75,13 +76,13 @@ fi
 
 # Detect whether 7zip and pwgen are installed
 	if ! hash 7z 2>/dev/null; then
-		echo "7zip is required to use this installer with Grav functions."
+		echo "7zip is required to use this installer with zip functions."
 		read -n1 -r -p "Press any key to install 7zip and continue..."
 		apt-get update
 		apt-get install -y 7zip
 	fi
         if ! hash pwgen 2>/dev/null; then
-		echo "pwgen is required to use this installer with Grav functions."
+		echo "pwgen is required to use this installer with zip and password functions."
 		read -n1 -r -p "Press any key to install pwgen and continue..."
 		apt-get update
 		apt-get install -y pwgen
@@ -130,7 +131,7 @@ echo "  Client created!  Generating user account and password, zipping client .o
         cp ~/$client-sec.zip $client_zip_path/
 
 # send email to webadmin about new profile creation
-        echo "<a href='https://www.icllc.cc/'><img src='https://cdn.icllc.one/logo-ic-md-text-trans.png' align='right'></a><br/><h3>New VPN Client Profile</h3><br/>A new VPN account profile has been created.<br/><br/><b>Client Username:</b> $client<br/><b>Profile Password:</b> $ZPASS<br/><br/>Visit the VPN Portal at <a href='https://cc.vpn.icllc.cc/clients/$client-sec.zip' target='_blank'>cc.vpn.icllc.cc</a> and login.  Then, your client profile will download.  You will need the above password to unzip the client profile (zipped .ovpn file) to import into the VPN software to connect.<br/><br/><b>For more information,</b> visit the <a href='https://vpn.icllc.cc/how-to' target='_blank'>VPN website for How-Tos</a>, or contact ICLLC Support at <a href='https://www.icllc.cc/support'>support.icllc.cc</a>.<br/><br/><hr/><font size='-2' color='gray'>&copy; 2024 <a href='https://www.icllc.cc/'>Isreal Consulting, LLC</a>.  All rights reserved.</font><br />" | mail -s "ICLLC VPN Profile Info" -a "From: webadmin@icllc.cc" -a "Content-type: text/html;"  $admin_email
+        echo "<h3>New VPN Client Profile</h3><br/>A new VPN account profile has been created.<br/><br/><b>Client Username:</b> $client<br/><b>Profile Password:</b> $ZPASS<br/><br/>Visit the VPN Portal at <a href='$client_site_url/$client-sec.zip' target='_blank'>VPN Client Portal</a> and login.  Then, your client profile will download.  You will need the above password to unzip the client profile (zipped .ovpn file) to import into the VPN software to connect.<br/><br/><b>For more information,</b> visit the VPN website for How-Tos, or contact Support at <a href='mailto:$admin_email?Subject=VPN Support'>VPN Support</a>.<br/><br/><hr/><font size='-2' color='gray'>&copy; 2024 VPN.  All rights reserved.</font><br />" | mail -s "VPN Profile Info" -a "From: $admin_email" -a "Content-type: text/html;"  $admin_email
         # create new client-config site user with client username and generated password
         # using htpasswd and then update the .htaccess file to include restrictions on the file
         echo $ZPASS > ~/temp_pass
