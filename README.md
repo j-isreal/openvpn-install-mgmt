@@ -87,7 +87,7 @@ These scripts use ```pwgen``` to create random passwords for the web user and zi
 
 Passwords are sent in <em>plain text</em> to the admin email and can be forwarded to the user.  Keep in mind, this is not the most secure way of sending the user/client their password.
 
-These scripts use Brypt encryption in the ```htpasswd``` command (-B option).  Bcrypt is considered to be very secure.
+These scripts use Bcrypt encryption in the ```htpasswd``` command (-B option).  Bcrypt is considered to be very secure.
 
 <br /><br />
 
