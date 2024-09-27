@@ -33,6 +33,12 @@
 
 <br />
 
+**Quick-Start:** ```wget https://i.icllc.cc/vpnscript -O openvpn-install-mgmt.sh```
+
+Be sure to customize the variables at the top of the script, as described below.
+
+<br />
+
 ## Configure the script variables
 In order for the scripts to run properly, you must set the variables at the top of both the files.
 
