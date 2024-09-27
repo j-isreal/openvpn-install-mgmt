@@ -5,6 +5,7 @@
 
 1. openvpn-install-mgmt.sh
 2. openvpn-create-next-client.sh
+3. sample.clientsite.com.zip
 
 **openvpn-install-mgmt.sh** script installs/removes OpenVPN server on linux machine, manages users, and has added functionality:
 - sends email to administrator with VPN user password and download link
@@ -16,6 +17,9 @@
 - uses a file to track serial number of last client
 - creates new client as client<i>nnn</i>
 - does everything as above ```openvpn-install-mgmt.sh``` script, creating password-protected zip and Apache web user, and confirmation email
+
+**sample.clientsite.com.zip** archive of sample client website:
+- unzip to web server, see README.md in archive for instructions
 
 <br />
 
