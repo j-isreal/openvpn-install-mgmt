@@ -107,6 +107,7 @@ fi
 		apt-get install -y pwgen
 	fi
 
+
 new_client () {
 	# Generates the custom client.ovpn
 	{
