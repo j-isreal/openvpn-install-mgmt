@@ -121,6 +121,15 @@ Configure mail:
  Project Website: https://www.jinet.us/dev/dev-projects/openvpn-server-and-website-for-clients/
 
  <br />
+ 
+**Get $200 Free Credit!**
+
+$200 to try out DigitalOcean over 60 days - a deal you can't beat!
+
+<a href="https://www.digitalocean.com/?refcode=7774aa9a2bfa&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge" target="_blank" rel="noopener"><img src="https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%203.svg" alt="DigitalOcean Referral Badge" /></a>
+
+<br />
+ 
 
  Copyright &copy; 2023-2024 Jacob Eiler, Isreal Consulting, LLC.  All rights reserved.
 
