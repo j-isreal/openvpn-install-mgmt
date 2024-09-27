@@ -8,4 +8,8 @@ The ```html``` folder is the webroot for your website.  Make sure you have a dom
 
 It is also <em>highly recommended</em> to use an SSL certificate to secure your website.  Otherwise, passwords will be sent in clear-text and could be compromised.
 
+- See Let's Encrypt (certbot) for free SSL certificates
+
+
+
 The ```clients``` folder is where the ```.htpasswd``` file is hosted and is intentionally **outside** the webroot for security reasons.
