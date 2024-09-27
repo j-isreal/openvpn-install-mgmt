@@ -36,11 +36,13 @@ In order for the scripts to run properly, you must set the variables at the top 
 # VARIABLES ###################################################################################
 # * NO trailing slashes '/' on path variables
 #
-easy_rsa_url='https://github.com/OpenVPN/easy-rsa/releases/download/v3.2.1/EasyRSA-3.2.1.tgz'
 client_zip_path='/var/www/clientsite/html/clients'
 client_htpasswd_path='/var/www/clientsite/clients'
-admin_email='webadmin@yoursite.com'
+client_site_url='https://www.clientsite.com/clients'
+admin_email='webadmin@yourdomain.com'
 #
+...
+# ** THE FIRST serial will be the number below PLUS ONE (+1)
 first_serial=101
 ###############################################################################################
 ```
