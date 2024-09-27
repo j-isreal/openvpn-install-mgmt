@@ -45,6 +45,7 @@ if [[ "$client_zip_path" == "/var/www/clientsite/html/clients" ]]; then
     echo
     echo "You must update the variables in this script for it to work!"
     echo "View the README.md for more information."
+    echo "https://i.icllc.cc/vpnreadme"
     echo
     exit
 fi
