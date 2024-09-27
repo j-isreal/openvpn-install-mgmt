@@ -10,6 +10,6 @@ It is also <em>highly recommended</em> to use an SSL certificate to secure your 
 
 - See Let's Encrypt (certbot) for free SSL certificates
 
-
+<br />
 
 The ```clients``` folder is where the ```.htpasswd``` file is hosted and is intentionally **outside** the webroot for security reasons.
