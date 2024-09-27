@@ -40,6 +40,15 @@ client=client"$nextclient"
 #
 ###############################################################################################
 
+# Make sure the user changed the variables above
+if [["$client_zip_path" == "/var/www/clientsite/html/clients"]]
+    echo
+    echo "You must update the variables in this script for it to work!"
+    echo "View the README.md for more information."
+    echo
+    exit
+fi
+
 # do some basic checks to see if the script can be run - same dependencies as the full
 # openvpn-install.sh script
 echo

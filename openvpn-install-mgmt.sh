@@ -17,6 +17,15 @@ client_site_url='https://www.clientsite.com/clients'
 admin_email='webadmin@yoursite.com'
 ###############################################################################################
 
+# Make sure the user changed the variables above
+if [["$client_zip_path" == "/var/www/clientsite/html/clients"]]
+    echo
+    echo "You must update the variables in this script for it to work!"
+    echo "View the README.md for more information."
+    echo
+    exit
+fi
+
 # Detect Debian users running the script with "sh" instead of bash
 if readlink /proc/$$/exe | grep -q "dash"; then
 	echo 'This installer needs to be run with "bash", not "sh".'
