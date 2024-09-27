@@ -17,3 +17,6 @@ Require user client111
 The ```Files``` directive tells the web server which file and what user has access and is <em>automatically</em> updated - there is no action necessary from you.
 
 The sample file ```file.zip``` is protected with the username client111 and the same password.
+
+The ```index.php``` file just redirects the user somewhere else since this is a protected folder.
+
