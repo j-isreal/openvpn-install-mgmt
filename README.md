@@ -1,5 +1,5 @@
 # bash-openvpn-install-mgmt
-**ICLLC VPN Status:** [![Better Stack Badge](https://uptime.betterstack.com/status-badges/v1/monitor/1khhf.svg)](https://uptime.betterstack.com/?utm_source=status_badge)
+**ICLLC VPN Status:** [![Better Stack Badge](https://uptime.betterstack.com/status-badges/v1/monitor/1khhf.svg)](https://status.icllc.cc)
 
 **BASH scripts to install/remove OpenVPN and manage clients, while creating users in Apache site and providing client ovpn files for download as password-protected zip files**
 
