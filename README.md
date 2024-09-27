@@ -82,6 +82,13 @@ It is helpful for users to have instructions on how to download and install Open
 
 **Sample FAQ website:** https://vpn.icllc.cc/
 
+### Password Encryption
+These scripts use ```pwgen``` to create random passwords for the web user and zip file password.  The password is the same for the web user and the zip file.
+
+Passwords are sent in <em>plain text</em> to the admin email and can be forwarded to the user.  Keep in mind, this is not the most secure way of sending the user/client their password.
+
+These scripts use Brypt encryption in the ```htpasswd``` command (-B option).  Bcrypt is considered to be very secure.
+
 <br /><br />
 
 ### OpenVPN and Easy-RSA
