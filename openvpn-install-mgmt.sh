@@ -142,7 +142,12 @@ new_client () {
         # using htpasswd and then update the .htaccess file to include restrictions on the file
         echo $ZPASS > ~/temp_pass
         # add if exists code to create the htpasswd with '-c' option otherwise just add to it (no -c)
-        cat ~/temp_pass | htpasswd -i -B $client_htpasswd_path/.htpasswd $client
+        if [ -f "$client_htpasswd_path/.htpasswd" ]; then
+           cat ~/temp_pass | htpasswd -i -B $client_htpasswd_path/.htpasswd $client
+        else 
+           cat ~/temp_pass | htpasswd -c -i -B $client_htpasswd_path/.htpasswd $client
+        fi
+
         rm ~/temp_pass
         cd $client_zip_path/
         # add Apache Files directive for only this client/user and file to .htaccess file
