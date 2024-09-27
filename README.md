@@ -25,7 +25,7 @@
 
 **Dependencies:** These scripts require:
   - ```wget``` program used for downloading resources
-  - ```pwgen``` program creates a random password for Grav login and zip file
+  - ```pwgen``` program creates a random password for web login and zip file
   - ```mail``` command sends email notification for new accounts (from mailutils or postfix)
   - ```7zip``` command zips the .ovpn file with the random password created
   - ```htpasswd``` program to create web users and passwords
