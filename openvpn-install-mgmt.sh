@@ -18,7 +18,7 @@ admin_email='webadmin@yoursite.com'
 ###############################################################################################
 
 # Make sure the user changed the variables above
-if [["$client_zip_path" == "/var/www/clientsite/html/clients"]]
+if [["$client_zip_path" == "/var/www/clientsite/html/clients"]]; then
     echo
     echo "You must update the variables in this script for it to work!"
     echo "View the README.md for more information."
