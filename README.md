@@ -50,14 +50,16 @@ You can specify the latest easy-rsa URL, or leave as-is.  For more info, see [Op
 
 Be sure to configure the ```client_zip_path``` to where you want the password-protected zip files copied, somewhere in your website.  Use the full path, beginning with a '/' without ending with a '/'.  
 
-Configure ```client_htpasswd_path``` (beginning with a '/' and without ending with a '/') and ```admin_email``` (where notifications are emailed) to the appropriate values.  **Be sure** the ```client_htpasswd_path``` is **outside** the publicly-accessible website.
+Configure ```client_htpasswd_path``` (beginning with a '/' and without ending with a '/') and ```client_site_url```.  **Be sure** the ```client_htpasswd_path``` is **outside** the publicly-accessible website.
+
+Configure the ```admin_email``` (where notifications are emailed) to the appropriate value.  
 
 In the ```openvpn-create-next-client.sh``` script, set the ```first_serial``` variable to your first serial number if the <i>next-client.txt</i> file doesn't exist in /etc/openvpn/server/ yet (the file is only created when you run the ```openvpn-create-next-client.sh``` script).  The first serial used will be the ```first_serial``` value <em>plus one</em>.
 
 <br/>
 
 ## Configure Linux mail program with Postfix relay
-This script uses the linux ```mail``` command to send a notification.  Install <i>mailutils</i> or <i>postfix</i> in linux.
+This script uses the linux ```mail``` command to send notifications.  Install <i>mailutils</i> or <i>postfix</i> in linux.
 
 You must configure Postfix, or setup Postfix relay for mail notification to work.
 - check this link: https://www.cyberciti.biz/faq/how-to-configure-postfix-relayhost-smarthost-to-send-email-using-an-external-smptd/
@@ -76,6 +78,9 @@ On Ubuntu or Debian, make sure ```htpasswd``` is installed:
 apt install apache2-utils
 ```
 
+It is helpful for users to have instructions on how to download and install OpenVPN clients - you can use the same website or a different website.
+
+**Sample FAQ website:** https://vpn.icllc.cc/
 
 <br /><br />
 
