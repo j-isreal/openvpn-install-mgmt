@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# https://github.com/j-isreal/bash-openvpn-install-grav
+# https://github.com/j-isreal/openvpn-install-mgmt
 #
 # Copyright (c) 2024 Jacob Eiler, Isreal Consulting, LLC. Read the License file.
 #
@@ -11,9 +11,10 @@
 # * NO trailing slashes '/' on path variables
 #
 easy_rsa_url='https://github.com/OpenVPN/easy-rsa/releases/download/v3.2.1/EasyRSA-3.2.1.tgz'
-grav_zip_path='/var/www/vpn.icllc.cc/html/user/pages/04.secure/home/02.profile'
-grav_root_path='/var/www/vpn.icllc.cc/html'
-admin_email='webadmin@icllc.cc'
+client_zip_path='/var/www/clientsite/html/clients'
+client_htpasswd_path='/var/www/clientsite/clients'
+client_site_url='https://www.clientsite.com/clients'
+admin_email='webadmin@yoursite.com'
 ###############################################################################################
 
 # Detect Debian users running the script with "sh" instead of bash
@@ -94,13 +95,13 @@ fi
 
 # Detect whether 7zip and pwgen are installed
 	if ! hash 7z 2>/dev/null; then
-		echo "7zip is required to use this installer with Grav functions."
+		echo "7zip is required to use this installer with zip functions."
 		read -n1 -r -p "Press any key to install 7zip and continue..."
 		apt-get update
 		apt-get install -y 7zip
 	fi
         if ! hash pwgen 2>/dev/null; then
-		echo "pwgen is required to use this installer with Grav functions."
+		echo "pwgen is required to use this installer with zip functions."
 		read -n1 -r -p "Press any key to install pwgen and continue..."
 		apt-get update
 		apt-get install -y pwgen
@@ -130,12 +131,26 @@ new_client () {
         chmod o-r ~/client-zip-pwd.txt
         # create password-protected zip file containing ovpn file for download and copy to (Grav) web path
 	7z a ~/$client-sec.zip -p$ZPASS ~/$client.ovpn
-        cp ~/$client-sec.zip $grav_zip_path/
-        # send email to webadmin about new profile creation
-        echo "<a href='https://www.icllc.cc/'><img src='https://cdn.icllc.one/logo-ic-md-text-trans.png' align='right'></a><br/><h3>New VPN Client Profile</h3><br/>A new VPN account profile has been created.<br/><br/><b>Client Username:</b> $client<br/><b>Profile Password:</b> $ZPASS<br/><br/><i>Please change this password immediately.</i>  This will <b>not</b> change the password for the zip file.<br/><br/>Visit the VPN Portal at <a href='https://vpn.icllc.cc' target='_blank'>vpn.icllc.cc</a> and login.  Then, visit your dashboard to download the VPN software and your client profile.  You will need the above password to unzip the client profile (.ovpn file) to import into the VPN software to connect.<br/><br/><b>For more information,</b> visit the <a href='https://vpn.icllc.cc/how-to' target='_blank'>VPN website for How-Tos</a>, or contact ICLLC Support at <a href='https://www.icllc.cc/support'>support.icllc.cc</a>.<br/><br/><hr/><font size='-2' color='gray'>&copy; 2024 <a href='https://www.icllc.cc/'>Isreal Consulting, LLC</a>.  All rights reserved.</font><br />" | mail -s "ICLLC VPN Profile Info" -a "From: webadmin@icllc.cc" -a "Content-type: text/html;"  $admin_email
-        # create new Grav site user with client username and generated password
-        cd $grav_root_path/
-        bin/plugin login new-user -l en -u $client -p $ZPASS -e $admin_email -P b -N $client -t "VPN User"
+        cp ~/$client-sec.zip $client_zip_path/
+### BEGIN CUSTOM EMAIL CONTENT ###############
+# send email to webadmin about new profile creation
+# You can customize the HTML or addresses to send to
+        echo "<h3>New VPN Client Profile</h3><br/>A new VPN account profile has been created.<br/><br/><b>Client Username:</b> $client<br/><b>Profile Password:</b> $ZPASS<br/><br/>Visit the VPN Portal at <a href='$client_site_url/$client-sec.zip' target='_blank'>VPN Client Portal</a> and login.  Then, your client profile will download.  You will need the above password to unzip the client profile (zipped .ovpn file) to import into the VPN software to connect.<br/><br/><b>For more information,</b> visit the VPN website for How-Tos, or contact Support at <a href='mailto:$admin_email?Subject=VPN Support'>VPN Support</a>.<br/><br/><hr/><font size='-2' color='gray'>&copy; 2024 VPN.  All rights reserved.</font><br />" | mail -s "VPN Profile Info" -a "From: $admin_email" -a "Content-type: text/html;"  $admin_email
+### END CUSTOM EMAIL ##########
+        # create new client-config site user with client username and generated password
+        # using htpasswd and then update the .htaccess file to include restrictions on the file
+        echo $ZPASS > ~/temp_pass
+        # add if exists code to create the htpasswd with '-c' option otherwise just add to it (no -c)
+        cat ~/temp_pass | htpasswd -i -B $client_htpasswd_path/.htpasswd $client
+        rm ~/temp_pass
+        cd $client_zip_path/
+        # add Apache Files directive for only this client/user and file to .htaccess file
+        echo "<Files $client-sec.zip>" >> .htaccess
+        echo "AuthType Basic" >> .htaccess
+        echo "AuthName 'Authentication Required'" >> .htaccess
+        echo "AuthUserFile $client_htpasswd_path/.htpasswd" >> .htaccess
+        echo "Require user $client" >> .htaccess
+        echo "</Files>" >> .htaccess
 }
 
 if [[ ! -e /etc/openvpn/server/server.conf ]]; then
@@ -467,8 +482,8 @@ verb 3" > /etc/openvpn/server/client-common.txt
 	echo "Finished!  OpenVPN Server installed and activated."
 	echo
 	echo "The client configuration is available in:" ~/"$client.ovpn"
-    echo "The client config file has been zipped, password-protected and copied to the Grav web folder."
-	echo "A new Grav user has been created and a confirmation email has been sent to the admin email."
+    echo "The client config file has been zipped, password-protected and copied to the client web folder."
+	echo "A new web user has been created and a confirmation email has been sent to the admin email."
     echo " "
 	echo "New clients can be added or revoked/removed by running this script again."
 	echo
@@ -483,7 +498,7 @@ else
 	echo "* To create serialized generic clients, Exit and run openvpn-create-next-client.sh *"
     echo
     echo "Select an option:"
-	echo "   1) Add a new client and Grav user"
+	echo "   1) Add a new client and web user"
 	echo "   2) Revoke/remove an existing client/user"
 	echo "   3) Remove OpenVPN"
 	echo "   4) Exit"
@@ -511,8 +526,8 @@ else
 	        echo "Finished!"
 	        echo
 	        echo "The client configuration is available in:" ~/"$client.ovpn"
-            echo "The client config file has been zipped, password-protected and copied to the Grav web folder."
-	        echo "A new Grav user has been created and a confirmation email has been sent to the admin email."
+            echo "The client config file has been zipped, password-protected and copied to the client web folder."
+	        echo "A new web user has been created and a confirmation email has been sent to the admin email."
             echo " "
 	        echo "New clients can be added or revoked/removed by running this script again."
 	        echo
@@ -532,7 +547,7 @@ else
 				exit
 			fi
 			echo
-			echo "Select the client to revoke/remove (this will also delete the zip file and Grav user):"
+			echo "Select the client to revoke/remove (this will also delete the zip file and web user):"
 			tail -n +2 /etc/openvpn/server/easy-rsa/pki/index.txt | grep "^V" | cut -d '=' -f 2 | nl -s ') '
 			read -p "Client: " client_number
 			until [[ "$client_number" =~ ^[0-9]+$ && "$client_number" -le "$number_of_clients" ]]; do
@@ -555,12 +570,13 @@ else
 				# CRL is read with each client connection, when OpenVPN is dropped to nobody
 				chown nobody:"$group_name" /etc/openvpn/server/crl.pem
 				echo
-                echo "Revoked client, removing Grav user and client zip file..."
-				# remove the Grav user and ovpn zip file from server
-                rm $grav_root_path/user/accounts/$client.yaml
-				rm $grav_zip_path/$client-sec.zip
+                echo "Revoked client, removing web user and client zip file..."
+				# remove the web user and ovpn zip file from server
+                sed -i -e "/Files $client-sec.zip/,+6d" $client_zip_path/.htaccess
+                rm $client_zip_path/$client-sec.zip
+                htpasswd -D $client_htpasswd_path/.htpasswd $client
 				echo
-                echo "$client revoked, zip file of ovpn deleted and Grav user removed!"
+                echo "$client revoked, zip file of ovpn deleted and web user removed!"
                 echo
                 echo "Run this script again to revoke additional clients/users."
                 echo 

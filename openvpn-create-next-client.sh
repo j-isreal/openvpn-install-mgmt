@@ -129,9 +129,10 @@ echo "  Client created!  Generating user account and password, zipping client .o
         # create password-protected zip file containing ovpn file for download and copy to (Grav) web path
 	    7z a ~/$client-sec.zip -p$ZPASS ~/$client.ovpn
         cp ~/$client-sec.zip $client_zip_path/
-
+### BEGIN CUSTOM EMAIL CONTENT ###############
 # send email to webadmin about new profile creation
         echo "<h3>New VPN Client Profile</h3><br/>A new VPN account profile has been created.<br/><br/><b>Client Username:</b> $client<br/><b>Profile Password:</b> $ZPASS<br/><br/>Visit the VPN Portal at <a href='$client_site_url/$client-sec.zip' target='_blank'>VPN Client Portal</a> and login.  Then, your client profile will download.  You will need the above password to unzip the client profile (zipped .ovpn file) to import into the VPN software to connect.<br/><br/><b>For more information,</b> visit the VPN website for How-Tos, or contact Support at <a href='mailto:$admin_email?Subject=VPN Support'>VPN Support</a>.<br/><br/><hr/><font size='-2' color='gray'>&copy; 2024 VPN.  All rights reserved.</font><br />" | mail -s "VPN Profile Info" -a "From: $admin_email" -a "Content-type: text/html;"  $admin_email
+### END CUSTOM EMAIL ##########
         # create new client-config site user with client username and generated password
         # using htpasswd and then update the .htaccess file to include restrictions on the file
         echo $ZPASS > ~/temp_pass
