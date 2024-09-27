@@ -71,6 +71,12 @@ This script uses ```htpasswd``` to create users and post the client .ovpn zip fi
 
 You must be running an Apache or Nginx website for this to work.  Set the variables at the top of the script to specify the client zip files path and htpasswd file path.
 
+On Ubuntu or Debian, make sure ```htpasswd``` is installed:
+```
+apt install apache2-utils
+```
+
+
 <br /><br />
 
 ### OpenVPN and Easy-RSA
